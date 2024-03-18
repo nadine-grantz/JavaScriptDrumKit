@@ -4,11 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JavaScript Drum Kit</title>
-    <link rel="stylesheet" href="style.css" />
-    <link
-      rel="icon"
-      href="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.energy.de%2Fnews%2Frihanna-comeback-welttournee-und-zwei-neue-alben&psig=AOvVaw1sgQ9xGqYzQVVYMX1HNHAI&ust=1710873761484000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCIjKxcu7_oQDFQAAAAAdAAAAABAD"
-    />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="keys">
@@ -61,9 +57,30 @@
     <audio data-key="76" src="sounds/tink.wav"></audio>
 
     <script>
-      window.addEventListener("keydown", function (event) {
-        console.log("Das ist mein Event:", event);
+      window.addEventListener("keydown", function (Bisasam) {
+        console.log("Das ist mein Event:", Bisasam);
       });
+
+      function removeTransition(e) {
+        if (e.propertyName !== "transform") return;
+        e.target.classList.remove("playing");
+      }
+
+      function playSound(e) {
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+        const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+        if (!audio) return;
+
+        key.classList.add("playing");
+        audio.currentTime = 0;
+        audio.play();
+      }
+
+      const keys = Array.from(document.querySelectorAll(".key"));
+      keys.forEach((key) =>
+        key.addEventListener("transitionend", removeTransition)
+      );
+      window.addEventListener("keydown", playSound);
     </script>
   </body>
 </html>
